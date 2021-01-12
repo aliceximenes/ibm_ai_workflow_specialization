@@ -1,0 +1,17 @@
+FROM python:3.7-alpine
+
+COPY requirements.txt .
+
+RUN apk add musl-dev linux-headers g++
+RUN pip install -r requirements.txt
+
+ADD utils ./
+COPY api.py .
+COPY model.py .
+
+EXPOSE 8050
+
+RUN mkdir logs
+RUN mkdir models
+
+RUN python model.py
